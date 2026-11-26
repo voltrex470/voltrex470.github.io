@@ -324,24 +324,25 @@
       <section id="tonight" aria-labelledby="tonight-h">
         <div class="sec-head">
           <span class="kicker">Today</span>
-          <h2 id="tonight-h">Wednesday, November 25</h2>
+          <h2 id="tonight-h">Thursday, November 26</h2>
         </div>
         <div class="tonight-grid">
           <div class="panel">
-            <p class="trial-name">Stream night — <span class="volt">game picked live</span></p>
+            <p class="trial-name">OFF today — <span class="volt">family time</span></p>
             <ul class="rule-list">
-              <li>Today — <span>live from 10 AM to ~5 PM PT, split by a ~1 hr pickup break.</span></li>
-              <li>Game — <span>not announced ahead of time. It's picked live on stream, so it can change — no specific title is promised here.</span></li>
-              <li>Where to find out — <span>head to Twitch chat at start time to see what's on and help pick what's next from the shelf.</span></li>
+              <li>Today — <span>OFF for Thanksgiving. No stream, no pickups — family time.</span></li>
+              <li>Next stream — <span>Friday, November 27, 10 PM–midnight PT.</span></li>
+              <li>Game — <span>picked live on stream Friday, as always — no specific title is promised here.</span></li>
             </ul>
           </div>
           <div class="panel meta-box">
             <h3>Stream details</h3>
             <div class="meta-rows">
-              <div class="meta-row"><span class="k">Starts</span><span class="v">10:00 AM PT</span></div>
-              <div class="meta-row"><span class="k">Ends</span><span class="v">~5:00 PM PT</span></div>
+              <div class="meta-row"><span class="k">Starts</span><span class="v">No stream today</span></div>
+              <div class="meta-row"><span class="k">Ends</span><span class="v">—</span></div>
               <div class="meta-row"><span class="k">Where</span><span class="v">twitch.tv/voltrex470</span></div>
-              <div class="meta-row"><span class="k">Format</span><span class="v">Game picked live on stream</span></div>
+              <div class="meta-row"><span class="k">Format</span><span class="v">OFF — Family time</span></div>
+              <div class="meta-row"><span class="k">Next stream</span><span class="v">Friday, Nov 27 · 10 PM–midnight PT</span></div>
             </div>
           </div>
         </div>
@@ -373,17 +374,17 @@
                 <span class="game">Stream day</span>
                 <span class="note">Game picked live on stream · ~1 hr pickup break mid-stream</span>
               </div>
-              <div class="day today" data-dow="3">
+              <div class="day" data-dow="3">
                 <span class="dow">Wednesday</span>
                 <span class="time">10 AM – ~5 PM PT</span>
                 <span class="game">Stream day</span>
-                <span class="note">Tonight · game picked live on stream · ~1 hr pickup break mid-stream</span>
-              </div>
-              <div class="day" data-dow="4">
-                <span class="dow">Thursday</span>
-                <span class="time">10 AM – ~5 PM PT</span>
-                <span class="game">Stream day</span>
                 <span class="note">Game picked live on stream · ~1 hr pickup break mid-stream</span>
+              </div>
+              <div class="day off-day today" data-dow="4">
+                <span class="dow">Thursday</span>
+                <span class="time">Off</span>
+                <span class="game">OFF — No stream</span>
+                <span class="note">Thanksgiving · Family time — no stream</span>
               </div>
             </div>
           </div>
@@ -544,7 +545,7 @@
       <footer>
         <span class="f-brand">VOLTREX470</span>
         <span>Mon–Thu 10 AM – ~5 PM · Fri–Sat 10 PM – midnight PT · Sun off · twitch.tv/voltrex470</span>
-        <span>Page updated November 25, 2026</span>
+        <span>Page updated November 26, 2026</span>
       </footer>
     </div>
 
@@ -557,6 +558,7 @@
         function partsInPT(date) {
           var fmt = new Intl.DateTimeFormat('en-US', {
             timeZone: 'America/Los_Angeles',
+            year: 'numeric', month: 'short', day: 'numeric',
             hour12: false,
             weekday: 'short',
             hour: '2-digit', minute: '2-digit', second: '2-digit'
@@ -585,6 +587,8 @@
           var dow = DOW[p.weekday];
           var secsNow = p.hour * 3600 + p.minute * 60 + p.second;
           var win = windowFor(dow);
+          // Thanksgiving 2026-11-26: OFF, no stream — skip today's window
+          if (p.year === '2026' && p.month === 'Nov' && p.day === '26') win = null;
           if (win && secsNow >= win.start && secsNow < win.end) {
             label.textContent = 'Live window — streaming until ' + win.endLabel;
             return;
